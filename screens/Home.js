@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,ScrollView
 } from "react-native";
-import { Header, AirbnbRating, Icon } from "react-native-elements";
+import { AirbnbRating, Icon } from "react-native-elements";
 import { RFValue } from "react-native-responsive-fontsize";
 import axios from "axios";
 
@@ -134,35 +134,26 @@ export default class HomeScreen extends Component {
                   defaultRating={rating}
                   isDisabled={true}
                   size={RFValue(25)}
-                  starContainerStyle={{ marginTop: RFValue(-30) }}
+                  starContainerStyle={{ marginTop: RFValue(-30)}}
                 />
               </View>
               <View style={styles.iconButtonContainer}>
                 <TouchableOpacity onPress={this.likedMovie}>
-                  <Icon
-                    reverse
-                    name={"check"}
-                    type={"entypo"}
-                    size={RFValue(30)}
-                    color={"#76ff03"}
+                  <Image
+                    style={styles.iconImage}
+                    source={require("../assets/like.png")}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.unlikedMovie}>
-                  <Icon
-                    reverse
-                    name={"cross"}
-                    type={"entypo"}
-                    size={RFValue(30)}
-                    color={"#ff1744"}
-                  />
+                  <Image
+                      style={styles.iconImage}
+                      source={require("../assets/dislike.png")}
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.notWatched}>
-                  <Icon
-                    reverse
-                    name={"cross"}
-                    type={"entypo"}
-                    size={RFValue(30)}
-                    color={"#ff1744"}
+                <Image
+                    style={styles.iconImage}
+                    source={require("../assets/didNotWatch.png")}
                   />
                 </TouchableOpacity>
               </View>
@@ -195,7 +186,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   subContainer: {
-    flex: 0.93,
+    flex: 0.9,
   },
   posterContainer: {
     flex: 0.6,
@@ -247,17 +238,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
   },
-  button: {
-    width: RFValue(160),
-    height: RFValue(50),
-    borderRadius: RFValue(20),
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    marginTop: RFValue(15),
-  },
-  buttonText: {
-    fontSize: RFValue(15),
-    fontWeight: "bold",
-  },
+  iconImage:{
+    width:RFValue(50),
+    height:RFValue(50)
+  }
 });
