@@ -7,7 +7,6 @@ import {
   Image,
   Text,
 } from "react-native";
-import { Card } from "react-native-elements";
 import axios from "axios";
 import { RFValue } from "react-native-responsive-fontsize";
 
@@ -25,7 +24,7 @@ export default class PopularMoviesScreen extends Component {
 
   getData = () => {
     const url =
-      "https://89de-2405-201-8008-e095-d4fb-5120-9ad3-912d.ngrok.io/popular_movies";
+      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/popular_movies";
     axios
       .get(url)
       .then(async (response) => {
@@ -41,7 +40,10 @@ export default class PopularMoviesScreen extends Component {
   renderItems = ({ item, index }) => {
     return (
       <View style={styles.cardContainer}>
-        <Image style={styles.posterImage} source={{ uri: item.link }}></Image>
+        <Image
+          style={styles.posterImage}
+          source={{ uri: item.poster_link }}
+        ></Image>
         <View style={styles.movieTitleContainer}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.subtitle}>{item.duration}</Text>
@@ -74,19 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-  title: {
-    color: "#fff",
-    alignSelf: "flex-start",
-    paddingLeft: RFValue(15),
-    fontSize: RFValue(25),
-    marginTop: RFValue(65),
-  },
-  subtitle: {
-    fontWeight: "bold",
-    alignSelf: "flex-start",
-    paddingLeft: RFValue(15),
-    fontSize: RFValue(15),
-  },
   cardContainer: {
     borderRadius: RFValue(10),
     height: RFValue(200),
@@ -111,13 +100,13 @@ const styles = StyleSheet.create({
     fontFamily: "monospace",
     marginVertical: RFValue(2),
   },
-  movieTitleContainer:{
-    position:"absolute",
+  movieTitleContainer: {
+    position: "absolute",
     backgroundColor: "#3c8ed9",
-    opacity:0.7,
-    padding:RFValue(10),
-    bottom:RFValue(10),
-    left:RFValue(10),
-    borderRadius:RFValue(10)
-  }
+    opacity: 0.7,
+    padding: RFValue(10),
+    bottom: RFValue(10),
+    left: RFValue(10),
+    borderRadius: RFValue(10),
+  },
 });

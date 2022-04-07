@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground,ScrollView
+  ImageBackground,
+  ScrollView,
 } from "react-native";
 import { AirbnbRating, Icon } from "react-native-elements";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -31,7 +32,7 @@ export default class HomeScreen extends Component {
 
   getMovie = () => {
     const url =
-      "https://89de-2405-201-8008-e095-d4fb-5120-9ad3-912d.ngrok.io/movies";
+      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/movies";
     axios
       .get(url)
       .then((response) => {
@@ -46,7 +47,7 @@ export default class HomeScreen extends Component {
 
   likedMovie = () => {
     const url =
-      "https://89de-2405-201-8008-e095-d4fb-5120-9ad3-912d.ngrok.io/like";
+      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/like";
     axios
       .post(url)
       .then((response) => {
@@ -59,7 +60,7 @@ export default class HomeScreen extends Component {
 
   unlikedMovie = () => {
     const url =
-      "https://89de-2405-201-8008-e095-d4fb-5120-9ad3-912d.ngrok.io/dislike";
+      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/dislike";
     axios
       .post(url)
       .then((response) => {
@@ -72,7 +73,7 @@ export default class HomeScreen extends Component {
 
   notWatched = () => {
     const url =
-      "https://89de-2405-201-8008-e095-d4fb-5120-9ad3-912d.ngrok.io/did_not_watch";
+      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/did_not_watch";
     axios
       .post(url)
       .then((response) => {
@@ -86,8 +87,7 @@ export default class HomeScreen extends Component {
   render() {
     const { movieDetails } = this.state;
     if (movieDetails.poster_link) {
-      const { poster_link, title, release_date, duration, overview, rating } =
-        movieDetails;
+      const { poster_link, title, release_date, duration, overview, rating } = movieDetails;
 
       return (
         <View style={styles.container}>
@@ -104,6 +104,8 @@ export default class HomeScreen extends Component {
                 name="chevron-right"
                 type="feather"
                 color={"white"}
+                size= {RFValue(30)}
+                containerStyle={{position:"absolute",right:RFValue(5)}}
                 onPress={() => {
                   this.props.navigation.navigate("Movies");
                 }}
@@ -134,7 +136,7 @@ export default class HomeScreen extends Component {
                   defaultRating={rating}
                   isDisabled={true}
                   size={RFValue(25)}
-                  starContainerStyle={{ marginTop: RFValue(-30)}}
+                  starContainerStyle={{ marginTop: RFValue(-30) }}
                 />
               </View>
               <View style={styles.iconButtonContainer}>
@@ -146,12 +148,12 @@ export default class HomeScreen extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.unlikedMovie}>
                   <Image
-                      style={styles.iconImage}
-                      source={require("../assets/dislike.png")}
-                    />
+                    style={styles.iconImage}
+                    source={require("../assets/dislike.png")}
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this.notWatched}>
-                <Image
+                  <Image
                     style={styles.iconImage}
                     source={require("../assets/didNotWatch.png")}
                   />
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     fontSize: RFValue(18),
     fontFamily: "monospace",
     textAlign: "center",
-    flex: 1,
+    flex: 1
   },
   subContainer: {
     flex: 0.9,
@@ -202,44 +204,44 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     width: "80%",
-    alignSelf:"center",
+    alignSelf: "center",
     flex: 0.2,
     backgroundColor: "#3c8ed9",
     borderRadius: RFValue(10),
-    marginHorizontal:RFValue(10),
-    padding:RFValue(10)
+    marginHorizontal: RFValue(10),
+    padding: RFValue(10),
   },
   title: {
     fontSize: RFValue(15),
     fontWeight: "bold",
-    color:"white",
-    fontFamily:"monospace",
-    marginVertical:RFValue(5),
+    color: "white",
+    fontFamily: "monospace",
+    marginVertical: RFValue(5),
   },
   subtitle: {
     fontSize: RFValue(10),
     fontWeight: "bold",
-    color:"white",
-    fontFamily:"monospace",
-    marginVertical:RFValue(5),
+    color: "white",
+    fontFamily: "monospace",
+    marginVertical: RFValue(5),
   },
   ratingContainer: {
     flex: 0.1,
   },
   overview: {
     fontSize: RFValue(13),
-    color:"white",
-    fontFamily:"monospace",
-    marginVertical:RFValue(5),
+    color: "white",
+    fontFamily: "monospace",
+    marginVertical: RFValue(5),
   },
   iconButtonContainer: {
-    flex:0.1,
+    flex: 0.1,
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
   },
-  iconImage:{
-    width:RFValue(50),
-    height:RFValue(50)
-  }
+  iconImage: {
+    width: RFValue(50),
+    height: RFValue(50),
+  },
 });
