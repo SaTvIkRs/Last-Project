@@ -10,7 +10,7 @@ import {
 import axios from "axios";
 import { RFValue } from "react-native-responsive-fontsize";
 
-export default class PopularMoviesScreen extends Component {
+export default class LikedMoviesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +24,7 @@ export default class PopularMoviesScreen extends Component {
 
   getData = () => {
     const url =
-      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/popular_movies";
+      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/liked";
     axios
       .get(url)
       .then(async (response) => {
@@ -46,7 +46,7 @@ export default class PopularMoviesScreen extends Component {
         ></Image>
         <View style={styles.movieTitleContainer}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.duration} mins</Text>
+          <Text style={styles.subtitle}>{parseInt(item.duration)} mins</Text>
         </View>
       </View>
     );

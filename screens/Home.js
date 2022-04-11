@@ -5,8 +5,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground,
-  ScrollView,
+  ImageBackground
 } from "react-native";
 import { AirbnbRating, Icon } from "react-native-elements";
 import { RFValue } from "react-native-responsive-fontsize";
@@ -32,7 +31,7 @@ export default class HomeScreen extends Component {
 
   getMovie = () => {
     const url =
-      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/movies";
+      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/movies";
     axios
       .get(url)
       .then((response) => {
@@ -47,7 +46,7 @@ export default class HomeScreen extends Component {
 
   likedMovie = () => {
     const url =
-      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/like";
+      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/like";
     axios
       .post(url)
       .then((response) => {
@@ -60,7 +59,7 @@ export default class HomeScreen extends Component {
 
   unlikedMovie = () => {
     const url =
-      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/dislike";
+      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/dislike";
     axios
       .post(url)
       .then((response) => {
@@ -73,7 +72,7 @@ export default class HomeScreen extends Component {
 
   notWatched = () => {
     const url =
-      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/did_not_watch";
+      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/did_not_watch";
     axios
       .post(url)
       .then((response) => {
@@ -95,8 +94,7 @@ export default class HomeScreen extends Component {
             source={require("../assets/bg.png")}
             style={{ flex: 1 }}
           >
-            <ImageBackground
-              source={require("../assets/headerBg.png")}
+            <View
               style={styles.headerContainer}
             >
               <Text style={styles.headerTitle}>Movie Recommendation</Text>
@@ -110,7 +108,7 @@ export default class HomeScreen extends Component {
                   this.props.navigation.navigate("Movies");
                 }}
               ></Icon>
-            </ImageBackground>
+            </View>
 
             <View style={styles.subContainer}>
               <View style={styles.posterContainer}>
@@ -119,15 +117,13 @@ export default class HomeScreen extends Component {
                   source={{ uri: poster_link }}
                 />
               </View>
-
-              <View style={styles.detailsContainer}>
-                <ScrollView>
-                  <Text style={styles.title}>{title}</Text>
-                  <Text style={styles.subtitle}>{`${
-                    release_date.split("-")[0]
-                  } | ${duration}`}</Text>
-                  <Text style={styles.overview}>{overview}</Text>
-                </ScrollView>
+              <View style={{flex:0.15}}>
+                <View style={styles.detailsContainer}>
+                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.subtitle}>{`${
+                      release_date.split("-")[0]
+                    } | ${duration}`}</Text>
+                </View>
               </View>
               <View style={styles.ratingContainer}>
                 <AirbnbRating
@@ -178,6 +174,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-end",
+    backgroundColor:"#182854"
   },
   headerTitle: {
     color: "#fff",
@@ -191,37 +188,39 @@ const styles = StyleSheet.create({
     flex: 0.9,
   },
   posterContainer: {
-    flex: 0.6,
+    flex: 0.65,
+    marginBottom:RFValue(10),
     justifyContent: "center",
     alignItems: "center",
   },
   posterImage: {
-    width: "85%",
-    height: "95%",
+    width: RFValue(280),
+    height: RFValue(380),
     resizeMode: "stretch",
     borderRadius: RFValue(10),
     marginHorizontal: RFValue(5),
   },
   detailsContainer: {
-    width: "80%",
+    width: RFValue(280),
     alignSelf: "center",
-    flex: 0.2,
-    backgroundColor: "#3c8ed9",
+    backgroundColor: "white",
     borderRadius: RFValue(10),
     marginHorizontal: RFValue(10),
     padding: RFValue(10),
+    borderColor:"#182854",
+    borderWidth:RFValue(2)
   },
   title: {
     fontSize: RFValue(15),
     fontWeight: "bold",
-    color: "white",
+    color: "#182854",
     fontFamily: "monospace",
     marginVertical: RFValue(5),
   },
   subtitle: {
     fontSize: RFValue(10),
     fontWeight: "bold",
-    color: "white",
+    color: "#182854",
     fontFamily: "monospace",
     marginVertical: RFValue(5),
   },
@@ -230,7 +229,7 @@ const styles = StyleSheet.create({
   },
   overview: {
     fontSize: RFValue(13),
-    color: "white",
+    color: "#182854",
     fontFamily: "monospace",
     marginVertical: RFValue(5),
   },

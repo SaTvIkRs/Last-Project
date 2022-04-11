@@ -24,7 +24,7 @@ export default class RecommendedMoviesScreen extends Component {
 
   getData = () => {
     const url =
-      "https://6c2d-2405-201-8008-e095-548b-ab69-a0e4-2179.ngrok.io/recommended_movies";
+      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/recommended_movies";
     axios
       .get(url)
       .then(async (response) => {
@@ -46,7 +46,7 @@ export default class RecommendedMoviesScreen extends Component {
         ></Image>
         <View style={styles.movieTitleContainer}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.duration}</Text>
+          <Text style={styles.subtitle}>{item.duration} mins</Text>
         </View>
       </View>
     );
@@ -89,24 +89,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: RFValue(15),
     fontWeight: "bold",
-    color: "white",
+    color: "#3c8ed9",
     fontFamily: "monospace",
     marginVertical: RFValue(2),
   },
   subtitle: {
     fontSize: RFValue(10),
     fontWeight: "bold",
-    color: "white",
+    color: "#3c8ed9",
     fontFamily: "monospace",
     marginVertical: RFValue(2),
   },
   movieTitleContainer: {
     position: "absolute",
-    backgroundColor: "#3c8ed9",
-    opacity: 0.7,
+    backgroundColor: "white",
+    width:RFValue(250),
     padding: RFValue(10),
     bottom: RFValue(10),
     left: RFValue(10),
     borderRadius: RFValue(10),
+    borderWidth:RFValue(2),
+    borderColor:"#3c8ed9"
   },
 });
