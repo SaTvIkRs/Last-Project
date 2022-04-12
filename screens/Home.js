@@ -7,15 +7,17 @@ import {
   TouchableOpacity,
   ImageBackground
 } from "react-native";
-import { AirbnbRating, Icon } from "react-native-elements";
+import { Icon } from "react-native-elements";
 import { RFValue } from "react-native-responsive-fontsize";
 import axios from "axios";
+import Star from 'react-native-star-view';
 
 export default class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
       movieDetails: {},
+      ngrok_url: "https://3953-2405-201-8008-e095-1cea-d7f1-7d46-29b0.ngrok.io"
     };
   }
 
@@ -30,8 +32,7 @@ export default class HomeScreen extends Component {
   }
 
   getMovie = () => {
-    const url =
-      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/movies";
+    const url = this.state.ngrok_url+"/movies";
     axios
       .get(url)
       .then((response) => {
@@ -45,8 +46,7 @@ export default class HomeScreen extends Component {
   };
 
   likedMovie = () => {
-    const url =
-      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/like";
+    const url = this.state.ngrok_url+"/like";
     axios
       .post(url)
       .then((response) => {
@@ -58,8 +58,7 @@ export default class HomeScreen extends Component {
   };
 
   unlikedMovie = () => {
-    const url =
-      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/dislike";
+    const url = this.state.ngrok_url+"/dislike";
     axios
       .post(url)
       .then((response) => {
@@ -71,8 +70,7 @@ export default class HomeScreen extends Component {
   };
 
   notWatched = () => {
-    const url =
-      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/did_not_watch";
+    const url = this.state.ngrok_url+"/did_not_watch";
     axios
       .post(url)
       .then((response) => {
@@ -86,7 +84,7 @@ export default class HomeScreen extends Component {
   render() {
     const { movieDetails } = this.state;
     if (movieDetails.poster_link) {
-      const { poster_link, title, release_date, duration, overview, rating } = movieDetails;
+      const { poster_link, original_title, release_date, duration, rating } = movieDetails;
 
       return (
         <View style={styles.container}>
@@ -105,7 +103,7 @@ export default class HomeScreen extends Component {
                 size= {RFValue(30)}
                 containerStyle={{position:"absolute",right:RFValue(5)}}
                 onPress={() => {
-                  this.props.navigation.navigate("Movies");
+                  this.props.navigation.navigate("Movies",{ngrok_url:this.state.ngrok_url});
                 }}
               ></Icon>
             </View>
@@ -119,21 +117,14 @@ export default class HomeScreen extends Component {
               </View>
               <View style={{flex:0.15}}>
                 <View style={styles.detailsContainer}>
-                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.title}>{original_title}</Text>
                     <Text style={styles.subtitle}>{`${
                       release_date.split("-")[0]
                     } | ${duration}`}</Text>
                 </View>
               </View>
               <View style={styles.ratingContainer}>
-                <AirbnbRating
-                  count={5}
-                  reviews={["", "", "", "", ""]}
-                  defaultRating={rating}
-                  isDisabled={true}
-                  size={RFValue(25)}
-                  starContainerStyle={{ marginTop: RFValue(-30) }}
-                />
+                  <Star score={rating} style={styles.starStyle} />
               </View>
               <View style={styles.iconButtonContainer}>
                 <TouchableOpacity onPress={this.likedMovie}>
@@ -226,6 +217,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     flex: 0.1,
+    alignItems:"center"
   },
   overview: {
     fontSize: RFValue(13),
@@ -243,4 +235,8 @@ const styles = StyleSheet.create({
     width: RFValue(50),
     height: RFValue(50),
   },
+  starStyle: {
+    width: RFValue(200),
+    height: RFValue(40),
+  }
 });

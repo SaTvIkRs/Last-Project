@@ -9,12 +9,14 @@ import {
 } from "react-native";
 import axios from "axios";
 import { RFValue } from "react-native-responsive-fontsize";
+import Star from 'react-native-star-view';
 
 export default class PopularMoviesScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
+      ngrok_url: "https://3953-2405-201-8008-e095-1cea-d7f1-7d46-29b0.ngrok.io"
     };
   }
 
@@ -23,8 +25,7 @@ export default class PopularMoviesScreen extends Component {
   }
 
   getData = () => {
-    const url =
-      "https://f967-2405-201-8008-e095-91c9-627b-6442-8312.ngrok.io/popular_movies";
+    const url = this.state.ngrok_url+"/popular_movies";
     axios
       .get(url)
       .then(async (response) => {
@@ -45,8 +46,11 @@ export default class PopularMoviesScreen extends Component {
           source={{ uri: item.poster_link }}
         ></Image>
         <View style={styles.movieTitleContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.duration} mins</Text>
+          <Text style={styles.title}>{item.original_title}</Text>
+          <View style={{flexDirection:"row"}}>
+            <Text style={styles.subtitle}>{item.duration} mins | </Text>
+            <Star score={item.rating} style={styles.starStyle}/>
+          </View>
         </View>
       </View>
     );
@@ -111,4 +115,8 @@ const styles = StyleSheet.create({
     borderWidth:RFValue(2),
     borderColor:"#3c8ed9"
   },
+  starStyle: {
+    width: RFValue(75),
+    height: RFValue(15),
+  }
 });
