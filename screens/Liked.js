@@ -16,7 +16,7 @@ export default class LikedMoviesScreen extends Component {
     super(props);
     this.state = {
       data: [],
-      ngrok_url: "https://3953-2405-201-8008-e095-1cea-d7f1-7d46-29b0.ngrok.io"
+      ngrok_url: ""
     };
   }
   

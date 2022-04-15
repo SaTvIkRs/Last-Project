@@ -5,19 +5,19 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { RFValue } from "react-native-responsive-fontsize";
 import axios from "axios";
-import Star from 'react-native-star-view';
+import Star from "react-native-star-view";
 
 export default class HomeScreen extends Component {
   constructor() {
     super();
     this.state = {
       movieDetails: {},
-      ngrok_url: "https://3953-2405-201-8008-e095-1cea-d7f1-7d46-29b0.ngrok.io"
+      ngrok_url: "",
     };
   }
 
@@ -25,20 +25,14 @@ export default class HomeScreen extends Component {
     this.getMovie();
   }
 
-  timeConvert(num) {
-    var hours = Math.floor(num / 60);
-    var minutes = num % 60;
-    return `${hours} hrs ${minutes} mins`;
-  }
+  /*define getmovie(), likedMovie(), dislikedMovie() ,notWatched() functions here*/
 
   getMovie = () => {
-    const url = this.state.ngrok_url+"/movies";
+    const url = this.state.ngrok_url + "/movies";
     axios
       .get(url)
       .then((response) => {
-        let details = response.data.data;
-        details["duration"] = this.timeConvert(details.duration);
-        this.setState({ movieDetails: details });
+        this.setState({ movieDetails: response.data.data });
       })
       .catch((error) => {
         console.log(error.message);
@@ -46,9 +40,9 @@ export default class HomeScreen extends Component {
   };
 
   likedMovie = () => {
-    const url = this.state.ngrok_url+"/like";
+    const url = this.state.ngrok_url + "/like";
     axios
-      .post(url)
+      .get(url)
       .then((response) => {
         this.getMovie();
       })
@@ -57,10 +51,10 @@ export default class HomeScreen extends Component {
       });
   };
 
-  unlikedMovie = () => {
-    const url = this.state.ngrok_url+"/dislike";
+  dislikedMovie = () => {
+    const url = this.state.ngrok_url + "/dislike";
     axios
-      .post(url)
+      .get(url)
       .then((response) => {
         this.getMovie();
       })
@@ -70,9 +64,9 @@ export default class HomeScreen extends Component {
   };
 
   notWatched = () => {
-    const url = this.state.ngrok_url+"/did_not_watch";
+    const url = this.state.ngrok_url + "/did_not_watch";
     axios
-      .post(url)
+      .get(url)
       .then((response) => {
         this.getMovie();
       })
@@ -84,7 +78,8 @@ export default class HomeScreen extends Component {
   render() {
     const { movieDetails } = this.state;
     if (movieDetails.poster_link) {
-      const { poster_link, original_title, release_date, duration, rating } = movieDetails;
+      const { poster_link, original_title, release_date, duration, rating } =
+        movieDetails;
 
       return (
         <View style={styles.container}>
@@ -92,48 +87,51 @@ export default class HomeScreen extends Component {
             source={require("../assets/bg.png")}
             style={{ flex: 1 }}
           >
-            <View
-              style={styles.headerContainer}
-            >
+            <View style={styles.headerContainer}>
               <Text style={styles.headerTitle}>Movie Recommendation</Text>
               <Icon
                 name="chevron-right"
                 type="feather"
                 color={"white"}
-                size= {RFValue(30)}
-                containerStyle={{position:"absolute",right:RFValue(5)}}
+                size={RFValue(30)}
+                containerStyle={{ position: "absolute", right: RFValue(5) }}
                 onPress={() => {
-                  this.props.navigation.navigate("Movies",{ngrok_url:this.state.ngrok_url});
+                  this.props.navigation.navigate("Movies");
                 }}
               ></Icon>
             </View>
 
             <View style={styles.subContainer}>
               <View style={styles.posterContainer}>
+                {/*Add the component for poster image below*/}
                 <Image
                   style={styles.posterImage}
                   source={{ uri: poster_link }}
                 />
               </View>
-              <View style={{flex:0.15}}>
+              <View style={{ flex: 0.15 }}>
+                {/*Add the components to show the movie name and 
+                other details ( release date & duration) below*/}
                 <View style={styles.detailsContainer}>
-                    <Text style={styles.title}>{original_title}</Text>
-                    <Text style={styles.subtitle}>{`${
-                      release_date.split("-")[0]
-                    } | ${duration}`}</Text>
+                  <Text style={styles.title}>{original_title}</Text>
+                  <Text style={styles.subtitle}>
+                    {release_date.split("-")[0]} | {duration} mins
+                  </Text>
                 </View>
               </View>
               <View style={styles.ratingContainer}>
-                  <Star score={rating} style={styles.starStyle} />
+                {/*Add the components to show rating of the movie below*/}
+                <Star score={rating} style={styles.starStyle} />
               </View>
               <View style={styles.iconButtonContainer}>
+                {/*Add the code for like, dislike and notWatched button below*/}
                 <TouchableOpacity onPress={this.likedMovie}>
                   <Image
                     style={styles.iconImage}
                     source={require("../assets/like.png")}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={this.unlikedMovie}>
+                <TouchableOpacity onPress={this.dislikedMovie}>
                   <Image
                     style={styles.iconImage}
                     source={require("../assets/dislike.png")}
@@ -150,8 +148,9 @@ export default class HomeScreen extends Component {
           </ImageBackground>
         </View>
       );
+    } else {
+      return null;
     }
-    return null;
   }
 }
 
@@ -165,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     justifyContent: "flex-end",
-    backgroundColor:"#182854"
+    backgroundColor: "#182854",
   },
   headerTitle: {
     color: "#fff",
@@ -173,14 +172,14 @@ const styles = StyleSheet.create({
     fontSize: RFValue(18),
     fontFamily: "monospace",
     textAlign: "center",
-    flex: 1
+    flex: 1,
   },
   subContainer: {
     flex: 0.9,
   },
   posterContainer: {
     flex: 0.65,
-    marginBottom:RFValue(10),
+    marginBottom: RFValue(10),
     justifyContent: "center",
     alignItems: "center",
   },
@@ -198,8 +197,8 @@ const styles = StyleSheet.create({
     borderRadius: RFValue(10),
     marginHorizontal: RFValue(10),
     padding: RFValue(10),
-    borderColor:"#182854",
-    borderWidth:RFValue(2)
+    borderColor: "#182854",
+    borderWidth: RFValue(2),
   },
   title: {
     fontSize: RFValue(15),
@@ -217,7 +216,7 @@ const styles = StyleSheet.create({
   },
   ratingContainer: {
     flex: 0.1,
-    alignItems:"center"
+    alignItems: "center",
   },
   overview: {
     fontSize: RFValue(13),
@@ -238,5 +237,5 @@ const styles = StyleSheet.create({
   starStyle: {
     width: RFValue(200),
     height: RFValue(40),
-  }
+  },
 });
